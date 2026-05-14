@@ -97,7 +97,20 @@ const testarSupabase = async () => {
     [appointments, start, end]
   );
 
-  const revenue = useMemo(() => filteredAppointments.reduce((sum, a) => sum + a.preco, 0), [filteredAppointments]);
+ const revenue = useMemo(
+  () =>
+    filteredAppointments.reduce((sum, a) => {
+      const valor =
+        Number(a.preco) ||
+        Number(a.valor) ||
+        Number(a.total_preco) ||
+        Number(a.totalPreco) ||
+        0;
+
+      return sum + valor;
+    }, 0),
+  [filteredAppointments]
+);
   const activePros = professionals.filter((p) => p.ativo).length;
   const pendingCount = useMemo(
     () => filteredAppointments.filter((a) => a.status === "pendente").length,
@@ -108,7 +121,8 @@ const testarSupabase = async () => {
   const serviceBreakdown = useMemo(() => {
     const counts: Record<string, number> = {};
     filteredAppointments.forEach((a) => {
-      counts[a.servicoNome] = (counts[a.servicoNome] || 0) + 1;
+      const nomeServico = a.servicoNome || a.servico_nome || a.servico || "Serviço";
+counts[nomeServico] = (counts[nomeServico] || 0) + 1;
     });
     return Object.entries(counts)
       .sort((a, b) => b[1] - a[1])
