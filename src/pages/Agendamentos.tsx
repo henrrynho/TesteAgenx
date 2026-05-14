@@ -718,29 +718,33 @@ const handleEmitirNfse = async (agendamento: any) => {
           </Button>
         </div>
       )}
-<Button
-  variant="ghost"
-  size="sm"
-  className="text-xs h-7 text-emerald-400 hover:text-emerald-300"
-  onClick={() => handleEmitirNfse(group)}
->
-  Emitir NFS-e
-</Button>
+
       {group.status === "confirmado" && (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-xs h-7 text-destructive"
-          onClick={async () => {
-            await Promise.all(
-              group.ids.map((id) => updateAppointmentStatus(id, "cancelado"))
-            );
-            toast.success("Agendamento cancelado!");
-          }}
-        >
-          Cancelar
-        </Button>
-      )}
+  <div className="flex items-center gap-2">
+    <Button
+      variant="ghost"
+      size="sm"
+      className="text-xs h-7 bg-emerald-600 px-2 text-white hover:bg-emerald-700"
+      onClick={() => handleEmitirNfse(group)}
+    >
+      Emitir NFS-e
+    </Button>
+
+    <Button
+      variant="ghost"
+      size="sm"
+      className="text-xs h-7 text-destructive"
+      onClick={async () => {
+        await Promise.all(
+          group.ids.map((id) => updateAppointmentStatus(id, "cancelado"))
+        );
+        toast.success("Agendamento cancelado!");
+      }}
+    >
+      Cancelar
+    </Button>
+  </div>
+)}
 
       {group.status === "cancelado" && (
         <Button
