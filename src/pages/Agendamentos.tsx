@@ -718,7 +718,14 @@ const handleEmitirNfse = async (agendamento: any) => {
           </Button>
         </div>
       )}
-
+<Button
+  variant="ghost"
+  size="sm"
+  className="text-xs h-7 text-emerald-400 hover:text-emerald-300"
+  onClick={() => handleEmitirNfse(group)}
+>
+  Emitir NFS-e
+</Button>
       {group.status === "confirmado" && (
         <Button
           variant="ghost"
