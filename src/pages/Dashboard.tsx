@@ -1,3 +1,4 @@
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -65,7 +66,21 @@ export default function Dashboard() {
   const [customStart, setCustomStart] = useState<Date | undefined>();
   const [customEnd, setCustomEnd] = useState<Date | undefined>();
   const bookingUrl = `${window.location.origin}/agendar`;
+const testarSupabase = async () => {
+  const { data, error } = await supabase
+    .from("teste_conexao")
+    .select("*")
+    .limit(1);
 
+  if (error) {
+    console.error("Erro Supabase:", error);
+    alert("Erro ao conectar com Supabase. Abra o console para ver o erro.");
+    return;
+  }
+
+  console.log("Conexão Supabase OK:", data);
+  alert(data?.[0]?.mensagem || "Supabase conectado com sucesso!");
+};
   const handleCopyLink = () => {
     navigator.clipboard.writeText(bookingUrl);
     setCopied(true);
@@ -147,6 +162,13 @@ export default function Dashboard() {
               {copied ? <Check className="h-4 w-4 mr-1" /> : <Copy className="h-4 w-4 mr-1" />}
               {copied ? "Copiado!" : "Copiar Link"}
             </Button>
+            <button
+  type="button"
+  onClick={testarSupabase}
+  className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+>
+  Testar Supabase
+</button>
           </div>
         </div>
 
