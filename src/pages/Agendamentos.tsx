@@ -566,7 +566,13 @@ const handleEmitirNfse = async (agendamento: any) => {
               {formatCurrency(a.preco)}
             </p>
           </div>
-
+<button
+  type="button"
+  onClick={() => handleEmitirNfse(a)}
+  className="mt-3 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+>
+  Emitir NFS-e
+</button>
           <div className="flex flex-wrap gap-2 pt-1">
             {a.status === "pendente" && (
               <>
