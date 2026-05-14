@@ -568,13 +568,14 @@ const handleEmitirNfse = async (agendamento: any) => {
           </div>
 
           <div className="flex flex-wrap gap-2 pt-1">
-            <button
-  type="button"
+           <Button
+  variant="ghost"
+  size="sm"
+  className="text-xs h-8 text-emerald-400 hover:text-emerald-300"
   onClick={() => handleEmitirNfse(a)}
-  className="mt-3 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
 >
   Emitir NFS-e
-</button>
+</Button>
             {a.status === "pendente" && (
               <>
                 <Button
@@ -588,7 +589,14 @@ const handleEmitirNfse = async (agendamento: any) => {
                 >
                   Confirmar
                 </Button>
-
+<Button
+  variant="ghost"
+  size="sm"
+  className="text-xs h-8 text-emerald-400 hover:text-emerald-300"
+  onClick={() => handleEmitirNfse(a)}
+>
+  Emitir NFS-e
+</Button>
                 <Button
                   variant="ghost"
                   size="sm"
