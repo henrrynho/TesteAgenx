@@ -283,7 +283,45 @@ for (const item of serviceItems) {
       setSubmitting(false);
     }
   };
+const handleEmitirNfse = async (agendamento: any) => {
+  try {
+    const servicoDescricao =
+      agendamento.servicoNome ||
+      agendamento.servico_nome ||
+      agendamento.servico ||
+      "Serviço de beleza";
 
+    const valor =
+      Number(agendamento.preco) ||
+      Number(agendamento.valor) ||
+      Number(agendamento.total_preco) ||
+      Number(agendamento.totalPreco) ||
+      0;
+
+    if (!valor || valor <= 0) {
+      alert("Este agendamento está sem valor. Não é possível emitir NFS-e.");
+      return;
+    }
+
+    await criarNotaFiscalRascunho({
+      agendamentoId: agendamento.id,
+      clienteNome: agendamento.clienteNome || agendamento.cliente_nome || "",
+      clienteDocumento:
+        agendamento.clienteDocumento || agendamento.cliente_documento || "",
+      servicoDescricao,
+      valor,
+    });
+
+    alert("Solicitação de NFS-e criada com sucesso!");
+  } catch (error) {
+    console.error("Erro ao criar solicitação de NFS-e:", error);
+    alert(
+      error instanceof Error
+        ? error.message
+        : "Erro ao criar solicitação de NFS-e."
+    );
+  }
+};
   return (
     <div className="space-y-6 max-w-7xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
