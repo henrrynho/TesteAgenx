@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-
+import { criarNotaFiscalRascunho } from "@/services/notaFiscalService";
 type CriarNotaFiscalParams = {
   agendamentoId?: string;
   clienteNome?: string;
