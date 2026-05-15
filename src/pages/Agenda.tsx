@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { criarNotaFiscalRascunho } from "@/services/notaFiscalService";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
@@ -164,16 +163,10 @@ export default function Agenda() {
   .slice()
   .sort((a, b) => a.horario.localeCompare(b.horario))
   .map((group) => (
-          <Card
-  key={group.key}
-  onClick={() => handleEmitirNfse(group)}
-  className="cursor-pointer border border-border bg-card/60 transition hover:border-emerald-500"
->
+          <Card key={group.key} className="border border-border bg-card/60">
             <CardContent className="p-4">
               <div className="flex items-start justify-between gap-4">
-               <p className="mb-2 text-xs font-medium text-emerald-400">
-  Clique neste agendamento para emitir NFS-e
-</p>
+               
                 <div className="shrink-0">
                   <p className="text-lg font-semibold text-purple-300 leading-none">
                     {group.horario}
@@ -271,54 +264,7 @@ export default function Agenda() {
   servicoNome: apt.servicos.join(" + "),
   profissionalNome: apt.profissionais.join(", "),
 }));
-const handleEmitirNfse = async (agendamento: any) => {
-  try {
-    const confirmar = window.confirm(
-      "Deseja criar uma solicitação de NFS-e para este agendamento?"
-    );
 
-    if (!confirmar) return;
-
-    const servicoDescricao =
-      agendamento.servicoNome ||
-      agendamento.servico_nome ||
-      agendamento.servico ||
-      agendamento.servicos ||
-      agendamento.servicosNomes ||
-      "Serviço de beleza";
-
-    const valor =
-      Number(agendamento.preco) ||
-      Number(agendamento.valor) ||
-      Number(agendamento.total_preco) ||
-      Number(agendamento.totalPreco) ||
-      Number(agendamento.totalValor) ||
-      0;
-
-    if (!valor || valor <= 0) {
-      alert("Este agendamento está sem valor. Não é possível emitir NFS-e.");
-      return;
-    }
-
-    await criarNotaFiscalRascunho({
-      agendamentoId: agendamento.id,
-      clienteNome: agendamento.clienteNome || agendamento.cliente_nome || "",
-      clienteDocumento:
-        agendamento.clienteDocumento || agendamento.cliente_documento || "",
-      servicoDescricao,
-      valor,
-    });
-
-    alert("Solicitação de NFS-e criada com sucesso!");
-  } catch (error) {
-    console.error("Erro ao criar solicitação de NFS-e:", error);
-    alert(
-      error instanceof Error
-        ? error.message
-        : "Erro ao criar solicitação de NFS-e."
-    );
-  }
-};
       return (
         <div
           key={i}
