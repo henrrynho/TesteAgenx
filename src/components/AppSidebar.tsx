@@ -11,7 +11,9 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { FileText } from "lucide-react";
 import {
+
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -31,6 +33,7 @@ const menuItems = [
   { title: "Clientes", url: "/clientes", icon: Users },
   { title: "Serviços", url: "/servicos", icon: Scissors },
   { title: "Profissionais", url: "/profissionais", icon: UserCog },
+  { title: "Notas Fiscais", path: "/notas-fiscais", icon: FileText },
 ];
 
 export function AppSidebar() {
