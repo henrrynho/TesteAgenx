@@ -33,7 +33,7 @@ const menuItems = [
   { title: "Clientes", url: "/clientes", icon: Users },
   { title: "Serviços", url: "/servicos", icon: Scissors },
   { title: "Profissionais", url: "/profissionais", icon: UserCog },
-  { title: "Notas Fiscais", path: "/notas-fiscais", icon: FileText },
+  { title: "Notas Fiscais", url: "/notas-fiscais", icon: FileText },
 ];
 
 export function AppSidebar() {
