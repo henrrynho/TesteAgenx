@@ -15,6 +15,7 @@ import Profissionais from "@/pages/Profissionais";
 import ClientBooking from "@/pages/ClientBooking";
 import Auth from "@/pages/Auth";
 import NotFound from "@/pages/NotFound";
+import NotasFiscais from "@/pages/NotasFiscais";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
                 <Route element={<AppLayout />}>
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/agendamentos" element={<Agendamentos />} />
+                  <Route path="/notas-fiscais" element={<NotasFiscais />} />
                   <Route path="/agenda" element={<Agenda />} />
                   <Route path="/clientes" element={<Clientes />} />
                   <Route path="/servicos" element={<Servicos />} />
