@@ -34,6 +34,7 @@ const menuItems = [
   { title: "Serviços", url: "/servicos", icon: Scissors },
   { title: "Profissionais", url: "/profissionais", icon: UserCog },
   { title: "Notas Fiscais", url: "/notas-fiscais", icon: FileText },
+  { title: "Config. Fiscais", url: "/configuracoes-fiscais", icon: Settings },
 ];
 
 export function AppSidebar() {
