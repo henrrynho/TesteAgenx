@@ -390,8 +390,8 @@ if (!form.dados_confirmados) {
 
             <SelectField
               label="Modo de emissão"
-              value={form.ambiente}
-              onChange={(v) => updateField("ambiente", v)}
+              value={form.Modo de emissão}
+              onChange={(v) => updateField("Modo de emissão", v)}
               options={[
   { value: "homologacao", label: "Teste — não emite nota real" },
   { value: "producao", label: "Produção — emite nota oficial" },
