@@ -11,7 +11,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { FileText } from "lucide-react";
+import { FileText, Settings } from "lucide-react";
 import {
 
   Sidebar,
