@@ -45,7 +45,34 @@ const initialForm: ConfigFiscal = {
   certificado_configurado: false,
   dados_confirmados: false,
 };
+const onlyNumbers = (value: string) => {
+  return value.replace(/\D/g, "");
+};
 
+const limitNumbers = (value: string, maxLength: number) => {
+  return onlyNumbers(value).slice(0, maxLength);
+};
+
+const formatCNPJ = (value: string) => {
+  const digits = limitNumbers(value, 14);
+
+  return digits
+    .replace(/^(\d{2})(\d)/, "$1.$2")
+    .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/\.(\d{3})(\d)/, ".$1/$2")
+    .replace(/(\d{4})(\d)/, "$1-$2");
+};
+
+const formatUF = (value: string) => {
+  return value.replace(/[^a-zA-Z]/g, "").toUpperCase().slice(0, 2);
+};
+
+const formatAliquota = (value: string) => {
+  return value
+    .replace(",", ".")
+    .replace(/[^0-9.]/g, "")
+    .slice(0, 6);
+};
 export default function ConfiguracoesFiscais() {
   const [form, setForm] = useState<ConfigFiscal>(initialForm);
   const [loading, setLoading] = useState(true);
@@ -246,21 +273,23 @@ if (!form.dados_confirmados) {
           <h2 className="font-semibold mb-4">Dados do salão</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field
-              label="CNPJ"
-              value={form.cnpj}
-              onChange={(v) => updateField("cnpj", v)}
-              placeholder="00.000.000/0001-00"
-              required
-            />
+           <Field
+  label="CNPJ"
+  value={form.cnpj}
+  onChange={(v) => updateField("cnpj", formatCNPJ(v))}
+  placeholder="00.000.000/0001-00"
+  maxLength={18}
+  required
+/>
 
             <Field
-              label="Inscrição Municipal"
-              value={form.inscricao_municipal}
-              onChange={(v) => updateField("inscricao_municipal", v)}
-              placeholder="Inscrição municipal"
-              required
-            />
+  label="Inscrição Municipal"
+  value={form.inscricao_municipal}
+  onChange={(v) => updateField("inscricao_municipal", limitNumbers(v, 20))}
+  placeholder="Inscrição municipal"
+  maxLength={20}
+  required
+/>
 
             <Field
               label="Razão Social"
@@ -287,20 +316,21 @@ if (!form.dados_confirmados) {
             />
 
             <Field
-              label="UF"
-              value={form.uf}
-              onChange={(v) => updateField("uf", v.toUpperCase())}
-              placeholder="SP"
-              required
-            />
+  label="UF"
+  value={form.uf}
+  onChange={(v) => updateField("uf", v.toUpperCase())}
+  placeholder="SP"
+  required
+/>
 
             <Field
-              label="Código do Município"
-              value={form.codigo_municipio}
-              onChange={(v) => updateField("codigo_municipio", v)}
-              placeholder="Código IBGE da cidade"
-              required
-            />
+  label="Código do Município"
+  value={form.codigo_municipio}
+  onChange={(v) => updateField("codigo_municipio", limitNumbers(v, 7))}
+  placeholder="Código IBGE da cidade"
+  maxLength={7}
+  required
+/>
 
             <Field
               label="E-mail Fiscal"
@@ -331,44 +361,47 @@ if (!form.dados_confirmados) {
             />
 
             <Field
-              label="CNAE"
-              value={form.cnae}
-              onChange={(v) => updateField("cnae", v)}
-              placeholder="Ex: 9602-5/01"
-              required
-            />
+  label="CNAE"
+  value={form.cnae}
+  onChange={(v) => updateField("cnae", v.slice(0, 9))}
+  placeholder="Ex: 9602-5/01"
+  maxLength={9}
+/>
 
             <Field
-              label="Código de Serviço Municipal"
-              value={form.codigo_servico}
-              onChange={(v) => updateField("codigo_servico", v)}
-              placeholder="Código usado pela prefeitura"
-              required
-            />
+  label="Código de Serviço Municipal"
+  value={form.codigo_servico}
+  onChange={(v) => updateField("codigo_servico", v.slice(0, 20))}
+  placeholder="Código usado pela prefeitura"
+  maxLength={20}
+  required
+/>
 
             <Field
-              label="Item da Lista de Serviço"
-              value={form.item_lista_servico}
-              onChange={(v) => updateField("item_lista_servico", v)}
-              placeholder="Ex: 06.01"
-              required
-            />
+  label="Item da Lista de Serviço"
+  value={form.item_lista_servico}
+  onChange={(v) => updateField("item_lista_servico", v.slice(0, 10))}
+  placeholder="Ex: 06.01"
+  maxLength={10}
+  required
+/>
 
             <Field
-              label="Alíquota ISS"
-              value={form.aliquota_iss}
-              onChange={(v) => updateField("aliquota_iss", v)}
-              placeholder="Ex: 0.02 para 2%"
-              required
-            />
+  label="Alíquota ISS"
+  value={form.aliquota_iss}
+  onChange={(v) => updateField("aliquota_iss", formatAliquota(v))}
+  placeholder="Ex: 0.02 para 2%"
+  maxLength={6}
+  required
+/>
 
             <Field
-              label="Telefone Fiscal"
-              value={form.telefone_fiscal}
-              onChange={(v) => updateField("telefone_fiscal", v)}
-              placeholder="Telefone do responsável fiscal"
-              required
-            />
+  label="Telefone Fiscal"
+  value={form.telefone_fiscal}
+  onChange={(v) => updateField("telefone_fiscal", limitNumbers(v, 11))}
+  placeholder="Telefone do responsável fiscal"
+  maxLength={11}
+/>
           </div>
         </div>
 
@@ -447,12 +480,14 @@ function Field({
   onChange,
   placeholder,
   required = false,
+  maxLength,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
+  maxLength?: number;
 }) {
   return (
     <label className="space-y-1.5">
@@ -466,6 +501,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
+        maxLength={maxLength}
         className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
       />
     </label>
