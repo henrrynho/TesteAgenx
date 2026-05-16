@@ -251,6 +251,7 @@ if (!form.dados_confirmados) {
               value={form.cnpj}
               onChange={(v) => updateField("cnpj", v)}
               placeholder="00.000.000/0001-00"
+              required
             />
 
             <Field
@@ -258,6 +259,7 @@ if (!form.dados_confirmados) {
               value={form.inscricao_municipal}
               onChange={(v) => updateField("inscricao_municipal", v)}
               placeholder="Inscrição municipal"
+              required
             />
 
             <Field
@@ -265,6 +267,7 @@ if (!form.dados_confirmados) {
               value={form.razao_social}
               onChange={(v) => updateField("razao_social", v)}
               placeholder="Razão social da empresa"
+              required
             />
 
             <Field
@@ -272,6 +275,7 @@ if (!form.dados_confirmados) {
               value={form.nome_fantasia}
               onChange={(v) => updateField("nome_fantasia", v)}
               placeholder="Nome do salão"
+              required
             />
 
             <Field
@@ -279,6 +283,7 @@ if (!form.dados_confirmados) {
               value={form.cidade}
               onChange={(v) => updateField("cidade", v)}
               placeholder="Ex: São Paulo"
+              required
             />
 
             <Field
@@ -286,6 +291,7 @@ if (!form.dados_confirmados) {
               value={form.uf}
               onChange={(v) => updateField("uf", v.toUpperCase())}
               placeholder="SP"
+              required
             />
 
             <Field
@@ -293,6 +299,7 @@ if (!form.dados_confirmados) {
               value={form.codigo_municipio}
               onChange={(v) => updateField("codigo_municipio", v)}
               placeholder="Código IBGE da cidade"
+              required
             />
 
             <Field
@@ -300,6 +307,7 @@ if (!form.dados_confirmados) {
               value={form.email_fiscal}
               onChange={(v) => updateField("email_fiscal", v)}
               placeholder="financeiro@salao.com"
+              required
             />
           </div>
         </div>
@@ -312,6 +320,7 @@ if (!form.dados_confirmados) {
               label="Regime Tributário"
               value={form.regime_tributario}
               onChange={(v) => updateField("regime_tributario", v)}
+              required
               options={[
                 { value: "", label: "Selecione" },
                 { value: "mei", label: "MEI" },
@@ -326,6 +335,7 @@ if (!form.dados_confirmados) {
               value={form.cnae}
               onChange={(v) => updateField("cnae", v)}
               placeholder="Ex: 9602-5/01"
+              required
             />
 
             <Field
@@ -333,6 +343,7 @@ if (!form.dados_confirmados) {
               value={form.codigo_servico}
               onChange={(v) => updateField("codigo_servico", v)}
               placeholder="Código usado pela prefeitura"
+              required
             />
 
             <Field
@@ -340,6 +351,7 @@ if (!form.dados_confirmados) {
               value={form.item_lista_servico}
               onChange={(v) => updateField("item_lista_servico", v)}
               placeholder="Ex: 06.01"
+              required
             />
 
             <Field
@@ -347,6 +359,7 @@ if (!form.dados_confirmados) {
               value={form.aliquota_iss}
               onChange={(v) => updateField("aliquota_iss", v)}
               placeholder="Ex: 0.02 para 2%"
+              required
             />
 
             <Field
@@ -354,6 +367,7 @@ if (!form.dados_confirmados) {
               value={form.telefone_fiscal}
               onChange={(v) => updateField("telefone_fiscal", v)}
               placeholder="Telefone do responsável fiscal"
+              required
             />
           </div>
         </div>
@@ -363,7 +377,7 @@ if (!form.dados_confirmados) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <SelectField
-              label="API Fiscal"
+              label="Integração de emissão"
               value={form.api_provider}
               onChange={(v) => updateField("api_provider", v)}
               options={[
@@ -375,13 +389,14 @@ if (!form.dados_confirmados) {
             />
 
             <SelectField
-              label="Ambiente"
+              label="Modo de emissão"
               value={form.ambiente}
               onChange={(v) => updateField("ambiente", v)}
               options={[
-                { value: "homologacao", label: "Homologação/Testes" },
-                { value: "producao", label: "Produção/Real" },
-              ]}
+                options={[
+  { value: "homologacao", label: "Teste — não emite nota real" },
+  { value: "producao", label: "Produção — emite nota oficial" },
+]}
             />
           </div>
 
@@ -432,12 +447,30 @@ function Field({
   value,
   onChange,
   placeholder,
+  required = false,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  required?: boolean;
 }) {
+  return (
+    <label className="space-y-1.5">
+      <span className="text-sm font-medium">
+        {label}
+        {required && <span className="ml-1 text-red-400">*</span>}
+      </span>
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
+      />
+    </label>
+  );
+}
   return (
     <label className="space-y-1.5">
       <span className="text-sm font-medium">{label}</span>
@@ -456,12 +489,35 @@ function SelectField({
   value,
   onChange,
   options,
+  required = false,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
+  required?: boolean;
 }) {
+  return (
+    <label className="space-y-1.5">
+      <span className="text-sm font-medium">
+        {label}
+        {required && <span className="ml-1 text-red-400">*</span>}
+      </span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
   return (
     <label className="space-y-1.5">
       <span className="text-sm font-medium">{label}</span>
