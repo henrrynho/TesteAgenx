@@ -16,6 +16,7 @@ import ClientBooking from "@/pages/ClientBooking";
 import Auth from "@/pages/Auth";
 import NotFound from "@/pages/NotFound";
 import NotasFiscais from "@/pages/NotasFiscais";
+import ConfiguracoesFiscais from "@/pages/ConfiguracoesFiscais";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/agendamentos" element={<Agendamentos />} />
                   <Route path="/notas-fiscais" element={<NotasFiscais />} />
+                  <Route path="/configuracoes-fiscais" element={<ConfiguracoesFiscais />} />
                   <Route path="/agenda" element={<Agenda />} />
                   <Route path="/clientes" element={<Clientes />} />
                   <Route path="/servicos" element={<Servicos />} />
