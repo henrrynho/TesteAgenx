@@ -507,20 +507,4 @@ function SelectField({
     </label>
   );
 }
-  return (
-    <label className="space-y-1.5">
-      <span className="text-sm font-medium">{label}</span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}
+ 
