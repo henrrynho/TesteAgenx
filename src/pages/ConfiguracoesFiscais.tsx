@@ -393,7 +393,6 @@ if (!form.dados_confirmados) {
               value={form.ambiente}
               onChange={(v) => updateField("ambiente", v)}
               options={[
-                options={[
   { value: "homologacao", label: "Teste — não emite nota real" },
   { value: "producao", label: "Produção — emite nota oficial" },
 ]}
