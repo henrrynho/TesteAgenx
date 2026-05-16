@@ -116,7 +116,35 @@ export default function ConfiguracoesFiscais() {
   const salvarConfiguracoes = async () => {
     try {
       setSaving(true);
+const camposObrigatorios = [
+  { campo: form.cnpj, nome: "CNPJ" },
+  { campo: form.razao_social, nome: "Razão Social" },
+  { campo: form.inscricao_municipal, nome: "Inscrição Municipal" },
+  { campo: form.cidade, nome: "Cidade" },
+  { campo: form.uf, nome: "UF" },
+  { campo: form.codigo_municipio, nome: "Código do Município" },
+  { campo: form.regime_tributario, nome: "Regime Tributário" },
+  { campo: form.codigo_servico, nome: "Código de Serviço Municipal" },
+  { campo: form.item_lista_servico, nome: "Item da Lista de Serviço" },
+  { campo: form.aliquota_iss, nome: "Alíquota ISS" },
+  { campo: form.email_fiscal, nome: "E-mail Fiscal" },
+];
 
+const campoVazio = camposObrigatorios.find(
+  (item) => !String(item.campo || "").trim()
+);
+
+if (campoVazio) {
+  alert(`Preencha o campo obrigatório: ${campoVazio.nome}`);
+  return;
+}
+
+if (!form.dados_confirmados) {
+  alert(
+    "Você precisa confirmar que os dados fiscais foram revisados pelo responsável ou contador do salão."
+  );
+  return;
+}
       const {
         data: { user },
         error: userError,
