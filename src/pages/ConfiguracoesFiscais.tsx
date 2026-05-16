@@ -318,8 +318,9 @@ if (!form.dados_confirmados) {
             <Field
   label="UF"
   value={form.uf}
-  onChange={(v) => updateField("uf", v.toUpperCase())}
+  onChange={(v) => updateField("uf", formatUF(v))}
   placeholder="SP"
+  maxLength={2}
   required
 />
 
