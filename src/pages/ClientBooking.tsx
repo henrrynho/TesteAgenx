@@ -172,6 +172,73 @@ const onlyNumbers = (value: string) => {
 
 const formatCpfCnpj = (value: string) => {
   const digits = onlyNumbers(value).slice(0, 14);
+  const isValidCPF = (cpf: string) => {
+  const digits = onlyNumbers(cpf);
+
+  if (digits.length !== 11) return false;
+  if (/^(\d)\1+$/.test(digits)) return false;
+
+  let soma = 0;
+
+  for (let i = 0; i < 9; i++) {
+    soma += Number(digits[i]) * (10 - i);
+  }
+
+  let primeiroDigito = (soma * 10) % 11;
+  if (primeiroDigito === 10) primeiroDigito = 0;
+
+  if (primeiroDigito !== Number(digits[9])) return false;
+
+  soma = 0;
+
+  for (let i = 0; i < 10; i++) {
+    soma += Number(digits[i]) * (11 - i);
+  }
+
+  let segundoDigito = (soma * 10) % 11;
+  if (segundoDigito === 10) segundoDigito = 0;
+
+  return segundoDigito === Number(digits[10]);
+};
+
+const isValidCNPJ = (cnpj: string) => {
+  const digits = onlyNumbers(cnpj);
+
+  if (digits.length !== 14) return false;
+  if (/^(\d)\1+$/.test(digits)) return false;
+
+  const calcularDigito = (base: string, pesos: number[]) => {
+    const soma = base
+      .split("")
+      .reduce((total, digit, index) => total + Number(digit) * pesos[index], 0);
+
+    const resto = soma % 11;
+    return resto < 2 ? 0 : 11 - resto;
+  };
+
+  const primeiroDigito = calcularDigito(
+    digits.slice(0, 12),
+    [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+  );
+
+  if (primeiroDigito !== Number(digits[12])) return false;
+
+  const segundoDigito = calcularDigito(
+    digits.slice(0, 13),
+    [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+  );
+
+  return segundoDigito === Number(digits[13]);
+};
+
+const isValidCpfCnpj = (value: string) => {
+  const digits = onlyNumbers(value);
+
+  if (digits.length === 11) return isValidCPF(value);
+  if (digits.length === 14) return isValidCNPJ(value);
+
+  return false;
+};
 
   if (digits.length <= 11) {
     return digits
@@ -195,6 +262,11 @@ const formatCpfCnpj = (value: string) => {
 ) return;
     if (desejaNotaFiscal && !clienteDocumento.trim()) {
   alert("Informe o CPF ou CNPJ para emissão da nota fiscal.");
+  return;
+}
+
+if (desejaNotaFiscal && !isValidCpfCnpj(clienteDocumento)) {
+  alert("CPF ou CNPJ inválido. Confira os dados e tente novamente.");
   return;
 }
 
@@ -552,7 +624,9 @@ desejaNotaFiscal,
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-sm font-medium">Email (opcional)</label>
+                        <Label className="text-sm font-medium">
+  Email {desejaNotaFiscal ? <span className="text-red-400">*</span> : "(opcional)"}
+</Label>
                         <Input
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
