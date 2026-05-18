@@ -261,16 +261,88 @@ const isValidCpfCnpj = (value: string) => {
   !selectedDate ||
   !selectedTime
 ) return;
-    if (desejaNotaFiscal && !clienteDocumento.trim()) {
-  alert("Informe o CPF ou CNPJ para emissão da nota fiscal.");
-  return;
-}
+    if (desejaNotaFiscal) {
+  const documentoDigits = clienteDocumento.replace(/\D/g, "");
 
+  const validarCPF = (cpf: string) => {
+    if (cpf.length !== 11) return false;
+    if (/^(\d)\1+$/.test(cpf)) return false;
 
+    let soma = 0;
 
-if (desejaNotaFiscal && !email.trim()) {
-  alert("Informe o e-mail para receber a nota fiscal.");
-  return;
+    for (let i = 0; i < 9; i++) {
+      soma += Number(cpf[i]) * (10 - i);
+    }
+
+    let primeiroDigito = (soma * 10) % 11;
+    if (primeiroDigito === 10) primeiroDigito = 0;
+
+    if (primeiroDigito !== Number(cpf[9])) return false;
+
+    soma = 0;
+
+    for (let i = 0; i < 10; i++) {
+      soma += Number(cpf[i]) * (11 - i);
+    }
+
+    let segundoDigito = (soma * 10) % 11;
+    if (segundoDigito === 10) segundoDigito = 0;
+
+    return segundoDigito === Number(cpf[10]);
+  };
+
+  const validarCNPJ = (cnpj: string) => {
+    if (cnpj.length !== 14) return false;
+    if (/^(\d)\1+$/.test(cnpj)) return false;
+
+    const calcularDigito = (base: string, pesos: number[]) => {
+      const soma = base
+        .split("")
+        .reduce(
+          (total, digito, index) => total + Number(digito) * pesos[index],
+          0
+        );
+
+      const resto = soma % 11;
+      return resto < 2 ? 0 : 11 - resto;
+    };
+
+    const primeiroDigito = calcularDigito(
+      cnpj.slice(0, 12),
+      [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    );
+
+    if (primeiroDigito !== Number(cnpj[12])) return false;
+
+    const segundoDigito = calcularDigito(
+      cnpj.slice(0, 13),
+      [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    );
+
+    return segundoDigito === Number(cnpj[13]);
+  };
+
+  const documentoValido =
+    documentoDigits.length === 11
+      ? validarCPF(documentoDigits)
+      : documentoDigits.length === 14
+      ? validarCNPJ(documentoDigits)
+      : false;
+
+  if (!clienteDocumento.trim()) {
+    alert("Informe o CPF ou CNPJ para emissão da nota fiscal.");
+    return;
+  }
+
+  if (!documentoValido) {
+    alert("CPF ou CNPJ inválido. Confira os dados e tente novamente.");
+    return;
+  }
+
+  if (!email.trim()) {
+    alert("Informe o e-mail para receber a nota fiscal.");
+    return;
+  }
 }
     setSubmitting(true);
     try {
