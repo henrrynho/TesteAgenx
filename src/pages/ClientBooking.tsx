@@ -330,17 +330,17 @@ const isValidCpfCnpj = (value: string) => {
       : false;
 
   if (!clienteDocumento.trim()) {
-    alert("Informe o CPF ou CNPJ para emissão da nota fiscal.");
+    toast.error("Informe o CPF ou CNPJ para emissão da nota fiscal.");
     return;
   }
 
   if (!documentoValido) {
-    alert("CPF ou CNPJ inválido. Confira os dados e tente novamente.");
-    return;
+    toast.error("CPF ou CNPJ inválido. Confira os dados e tente novamente.");
+return;
   }
 
   if (!email.trim()) {
-    alert("Informe o e-mail para receber a nota fiscal.");
+    toast.error("Informe o e-mail para receber a nota fiscal.");
     return;
   }
 }
