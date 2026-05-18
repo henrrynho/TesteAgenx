@@ -266,10 +266,7 @@ const isValidCpfCnpj = (value: string) => {
   return;
 }
 
-if (desejaNotaFiscal && !isValidCpfCnpj(clienteDocumento)) {
-  alert("CPF ou CNPJ inválido. Confira os dados e tente novamente.");
-  return;
-}
+
 
 if (desejaNotaFiscal && !email.trim()) {
   alert("Informe o e-mail para receber a nota fiscal.");
