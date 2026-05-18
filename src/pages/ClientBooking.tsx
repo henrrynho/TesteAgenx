@@ -559,7 +559,39 @@ desejaNotaFiscal,
                           placeholder="Digite seu email"
                         />
                       </div>
+<div className="rounded-lg border border-border bg-card/60 p-4 space-y-4">
+  <label className="flex items-center gap-3 text-sm">
+    <input
+      type="checkbox"
+      checked={desejaNotaFiscal}
+      onChange={(e) => setDesejaNotaFiscal(e.target.checked)}
+      className="h-4 w-4"
+    />
+    Quero receber nota fiscal deste serviço
+  </label>
 
+  {desejaNotaFiscal && (
+    <div className="space-y-3">
+      <label className="space-y-1.5">
+        <span className="text-sm font-medium">
+          CPF ou CNPJ <span className="text-red-400">*</span>
+        </span>
+
+        <input
+          value={clienteDocumento}
+          onChange={(e) => setClienteDocumento(formatCpfCnpj(e.target.value))}
+          placeholder="000.000.000-00"
+          maxLength={18}
+          className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
+        />
+      </label>
+
+      <p className="text-xs text-muted-foreground">
+        O CPF/CNPJ será usado apenas para emissão da nota fiscal.
+      </p>
+    </div>
+  )}
+</div>
                       <div className="rounded-lg bg-muted/50 p-3 text-sm space-y-1">
                         <p>
                           <span className="text-muted-foreground">Serviço(s): </span>
