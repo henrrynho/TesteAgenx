@@ -236,7 +236,7 @@ const isValidCpfCnpj = (value: string) => {
   const digits = onlyNumbers(value);
 
   if (digits.length === 11) return isValidCPF(value);
-  if (digits.length === 14) return isValidCNPJ(value);
+  if (digits.length === 14) return isValidCnpj(value);
 
   return false;
 };
