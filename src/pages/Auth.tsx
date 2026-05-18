@@ -87,7 +87,7 @@ export default function Auth() {
 
         supabase.auth
           .resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/reset-password`,
+            redirectTo: "https://teste-agenx-henrrynhos-projects.vercel.app/reset-password",
           })
           .then(({ error }) => {
             if (error) {
