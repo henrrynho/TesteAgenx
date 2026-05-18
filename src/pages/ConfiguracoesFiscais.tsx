@@ -316,7 +316,7 @@ if (!form.dados_confirmados) {
             />
 
  <SelectField
-  label="Estado"
+  label="UF"
   value={form.uf}
   onChange={(v) => updateField("uf", v)}
   required
