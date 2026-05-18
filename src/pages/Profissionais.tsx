@@ -36,7 +36,17 @@ export default function Profissionais() {
     await removeProfessional(id);
     toast.success("Profissional removido!");
   };
+const handleToggleAtivo = async (p: any) => {
+  const novoStatus = !Boolean(p.ativo);
 
+  await updateProfessional(p.id, {
+    ativo: novoStatus,
+  });
+
+  toast.success(
+    novoStatus ? "Profissional ativado!" : "Profissional desativado!"
+  );
+};
   return (
     <div className="space-y-6 max-w-5xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -80,10 +90,20 @@ export default function Profissionais() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <Badge variant="outline" className={p.ativo ? "bg-success/10 text-success border-success/30" : "bg-muted text-muted-foreground"}>
-                      {p.ativo ? "Ativo" : "Inativo"}
-                    </Badge>
-                    <Switch checked={p.ativo} onCheckedChange={async () => { await updateProfessional(p.id, { ativo: !p.ativo }); toast.success("Status atualizado!"); }} />
+                    <Badge
+  variant="outline"
+  className={
+    Boolean(p.ativo)
+      ? "bg-success/10 text-success border-success/30"
+      : "bg-destructive/10 text-destructive border-destructive/30"
+  }
+>
+  {Boolean(p.ativo) ? "Ativo" : "Inativo"}
+</Badge>
+                    <Switch
+  checked={Boolean(p.ativo)}
+  onCheckedChange={() => handleToggleAtivo(p)}
+/>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">{totalToday} agendamento{totalToday !== 1 ? "s" : ""} hoje</span>
