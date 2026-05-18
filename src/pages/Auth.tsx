@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/integrations/supabase/client";
 import { Label } from "@/components/ui/label";
 import { Scissors } from "lucide-react";
 import { toast } from "sonner";
@@ -74,6 +75,35 @@ export default function Auth() {
               {loading ? "Aguarde..." : isLogin ? "Entrar" : "Criar Conta"}
             </Button>
           </form>
+          {isLogin && (
+  <div className="mt-3 text-center">
+    <button
+      type="button"
+      onClick={() => {
+        if (!email.trim()) {
+          toast.error("Digite seu e-mail para recuperar a senha.");
+          return;
+        }
+
+        supabase.auth
+          .resetPasswordForEmail(email, {
+            redirectTo: `${window.location.origin}/reset-password`,
+          })
+          .then(({ error }) => {
+            if (error) {
+              toast.error("Erro ao enviar e-mail de recuperação.");
+              return;
+            }
+
+            toast.success("Enviamos um link de recuperação para seu e-mail.");
+          });
+      }}
+      className="text-sm text-purple-400 hover:underline"
+    >
+      Esqueci minha senha
+    </button>
+  </div>
+)}
           <div className="mt-4 text-center text-sm text-muted-foreground">
             {isLogin ? "Não tem conta?" : "Já tem conta?"}{" "}
             <button
