@@ -55,6 +55,8 @@ const showDashboardButton = location.pathname === "/agendar-teste";
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
+  const [clienteDocumento, setClienteDocumento] = useState("");
+const [desejaNotaFiscal, setDesejaNotaFiscal] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 useEffect(() => {
@@ -164,7 +166,26 @@ const availableTimes = TIME_SLOTS.filter((time) => {
 
   return true;
 };
+const onlyNumbers = (value: string) => {
+  return value.replace(/\D/g, "");
+};
 
+const formatCpfCnpj = (value: string) => {
+  const digits = onlyNumbers(value).slice(0, 14);
+
+  if (digits.length <= 11) {
+    return digits
+      .replace(/^(\d{3})(\d)/, "$1.$2")
+      .replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1-$2");
+  }
+
+  return digits
+    .replace(/^(\d{2})(\d)/, "$1.$2")
+    .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/\.(\d{3})(\d)/, ".$1/$2")
+    .replace(/(\d{4})(\d)/, "$1-$2");
+};
   const handleConfirm = async () => {
     if (
   selectedServices.length === 0 ||
@@ -172,6 +193,15 @@ const availableTimes = TIME_SLOTS.filter((time) => {
   !selectedDate ||
   !selectedTime
 ) return;
+    if (desejaNotaFiscal && !clienteDocumento.trim()) {
+  alert("Informe o CPF ou CNPJ para emissão da nota fiscal.");
+  return;
+}
+
+if (desejaNotaFiscal && !email.trim()) {
+  alert("Informe o e-mail para receber a nota fiscal.");
+  return;
+}
     setSubmitting(true);
     try {
       const client = await findOrCreateClient(nome, telefone, email);
@@ -193,6 +223,9 @@ for (const item of serviceItems) {
   await createMultiServiceAppointment({
     clienteId: client.id,
     clienteNome: client.nome,
+    clienteDocumento: desejaNotaFiscal ? clienteDocumento : "",
+clienteEmail: email || "",
+desejaNotaFiscal,
     profissionalId: item.professionalId,
     profissionalNome: item.professionalName,
     servicoIds: [item.serviceId],
