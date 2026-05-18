@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Save, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 type ConfigFiscal = {
   id?: string;
@@ -134,7 +135,7 @@ export default function ConfiguracoesFiscais() {
       }
     } catch (error) {
       console.error("Erro ao carregar configurações fiscais:", error);
-      alert("Erro ao carregar configurações fiscais.");
+      toast.error("Erro ao carregar configurações fiscais.");
     } finally {
       setLoading(false);
     }
@@ -162,14 +163,14 @@ const campoVazio = camposObrigatorios.find(
 );
 
 if (campoVazio) {
-  alert(`Preencha o campo obrigatório: ${campoVazio.nome}`);
+  toast.error(`Preencha o campo obrigatório: ${campoVazio.nome}`);
   return;
 }
 
 if (!form.dados_confirmados) {
-  alert(
-    "Você precisa confirmar que os dados fiscais foram revisados pelo responsável ou contador do salão."
-  );
+  toast.error(
+  "Você precisa confirmar que os dados fiscais foram revisados pelo responsável ou contador do salão."
+);
   return;
 }
       const {
@@ -214,15 +215,15 @@ if (!form.dados_confirmados) {
         throw error;
       }
 
-      alert("Configurações fiscais salvas com sucesso!");
+      toast.success("Configurações fiscais salvas com sucesso!");
       await carregarConfiguracoes();
     } catch (error) {
       console.error("Erro ao salvar configurações fiscais:", error);
-      alert(
-        error instanceof Error
-          ? error.message
-          : "Erro ao salvar configurações fiscais."
-      );
+     toast.error(
+  error instanceof Error
+    ? error.message
+    : "Erro ao salvar configurações fiscais."
+);
     } finally {
       setSaving(false);
     }
