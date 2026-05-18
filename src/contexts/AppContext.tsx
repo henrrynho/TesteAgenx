@@ -89,6 +89,9 @@ export interface Appointment {
 export interface CreateAppointmentData {
   clienteId: string;
   clienteNome: string;
+  clienteDocumento?: string;
+clienteEmail?: string;
+desejaNotaFiscal?: boolean;
   profissionalId: string;
   profissionalNome: string;
   servicoIds: string[];
@@ -497,6 +500,9 @@ if (data.avatar !== undefined) {
 
     const { error } = await supabase.from("agendamentos").insert({
       cliente_id: client.id, cliente_nome: client.nome,
+       cliente_documento: data.clienteDocumento || null,
+  cliente_email: data.clienteEmail || null,
+  deseja_nota_fiscal: Boolean(data.desejaNotaFiscal),
       profissional_id: profissional.id, profissional_nome: profissional.nome,
       servico_id: data.servicoIds[0], servico_nome: servicoNome,
       data: data.data, horario: horarioNormalizado, horario_fim: horarioFim,
