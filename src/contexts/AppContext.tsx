@@ -220,9 +220,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return; 
   }
 
-  const professionalUpdates: any = {};
-  if (data.nome !== undefined) professionalUpdates.nome = data.nome.trim();
+ const professionalUpdates: any = {};
 
+if (data.nome !== undefined) {
+  professionalUpdates.nome = data.nome.trim();
+}
+
+if (data.especialidade !== undefined) {
+  professionalUpdates.especialidade = data.especialidade.trim();
+}
+
+if (data.ativo !== undefined) {
+  professionalUpdates.ativo = data.ativo;
+}
+
+if (data.avatar !== undefined) {
+  professionalUpdates.avatar = data.avatar;
+}
   const { error } = await supabase
     .from("profissionais")
     .update(professionalUpdates)
