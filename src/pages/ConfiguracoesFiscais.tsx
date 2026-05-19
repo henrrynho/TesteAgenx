@@ -78,6 +78,7 @@ export default function ConfiguracoesFiscais() {
   const [form, setForm] = useState<ConfigFiscal>(initialForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const updateField = (field: keyof ConfigFiscal, value: string | boolean) => {
     setForm((prev) => ({
@@ -216,7 +217,8 @@ if (!form.dados_confirmados) {
       }
 
       toast.success("Configurações fiscais salvas com sucesso!");
-      await carregarConfiguracoes();
+await carregarConfiguracoes();
+setIsEditing(false);
     } catch (error) {
       console.error("Erro ao salvar configurações fiscais:", error);
      toast.error(
@@ -281,6 +283,7 @@ if (!form.dados_confirmados) {
   placeholder="00.000.000/0001-00"
   maxLength={18}
   required
+  disabled={!isEditing}
 />
 
             <Field
@@ -290,6 +293,7 @@ if (!form.dados_confirmados) {
   placeholder="Inscrição municipal"
   maxLength={20}
   required
+  disabled={!isEditing}
 />
 
             <Field
@@ -298,6 +302,7 @@ if (!form.dados_confirmados) {
               onChange={(v) => updateField("razao_social", v)}
               placeholder="Razão social da empresa"
               required
+              disabled={!isEditing}
             />
 
             <Field
@@ -306,6 +311,7 @@ if (!form.dados_confirmados) {
               onChange={(v) => updateField("nome_fantasia", v)}
               placeholder="Nome do salão"
               required
+              disabled={!isEditing}
             />
 
             <Field
@@ -314,6 +320,7 @@ if (!form.dados_confirmados) {
               onChange={(v) => updateField("cidade", v)}
               placeholder="Ex: São Paulo"
               required
+              disabled={!isEditing}
             />
 
  <SelectField
@@ -321,6 +328,7 @@ if (!form.dados_confirmados) {
   value={form.uf}
   onChange={(v) => updateField("uf", v)}
   required
+  disabled={!isEditing}
   options={[
     { value: "", label: "Selecione o estado" },
     { value: "AC", label: "Acre (AC)" },
@@ -360,6 +368,7 @@ if (!form.dados_confirmados) {
   placeholder="Código IBGE da cidade"
   maxLength={7}
   required
+  disabled={!isEditing}
 />
 
             <Field
@@ -368,6 +377,7 @@ if (!form.dados_confirmados) {
               onChange={(v) => updateField("email_fiscal", v)}
               placeholder="financeiro@salao.com"
               required
+              disabled={!isEditing}
             />
           </div>
         </div>
@@ -381,6 +391,7 @@ if (!form.dados_confirmados) {
               value={form.regime_tributario}
               onChange={(v) => updateField("regime_tributario", v)}
               required
+              disabled={!isEditing}
               options={[
                 { value: "", label: "Selecione" },
                 { value: "mei", label: "MEI" },
@@ -396,6 +407,8 @@ if (!form.dados_confirmados) {
   onChange={(v) => updateField("cnae", v.slice(0, 9))}
   placeholder="Ex: 9602-5/01"
   maxLength={9}
+  disabled={!isEditing}
+  required
 />
 
             <Field
@@ -414,6 +427,7 @@ if (!form.dados_confirmados) {
   placeholder="Ex: 06.01"
   maxLength={10}
   required
+  disabled={!isEditing}
 />
 
             <Field
@@ -423,6 +437,7 @@ if (!form.dados_confirmados) {
   placeholder="Ex: 0.02 para 2%"
   maxLength={6}
   required
+  disabled={!isEditing}
 />
 
             <Field
@@ -467,6 +482,7 @@ if (!form.dados_confirmados) {
               <input
                 type="checkbox"
                 checked={form.certificado_configurado}
+                disabled={!isEditing}
                 onChange={(e) =>
                   updateField("certificado_configurado", e.target.checked)
                 }
@@ -478,6 +494,7 @@ if (!form.dados_confirmados) {
               <input
                 type="checkbox"
                 checked={form.dados_confirmados}
+                disabled={!isEditing}
                 onChange={(e) =>
                   updateField("dados_confirmados", e.target.checked)
                 }
@@ -488,17 +505,41 @@ if (!form.dados_confirmados) {
           </div>
         </div>
 
-        <div className="flex justify-end">
-          <button
-            type="button"
-            onClick={salvarConfiguracoes}
-            disabled={saving}
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50"
-          >
-            <Save className="h-4 w-4" />
-            {saving ? "Salvando..." : "Salvar configurações"}
-          </button>
-        </div>
+        <div className="flex justify-end gap-3">
+  {!isEditing ? (
+    <button
+      type="button"
+      onClick={() => setIsEditing(true)}
+      className="inline-flex items-center justify-center gap-2 rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+    >
+      Editar configurações
+    </button>
+  ) : (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          carregarConfiguracoes();
+          setIsEditing(false);
+        }}
+        disabled={saving}
+        className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted disabled:opacity-50"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        onClick={salvarConfiguracoes}
+        disabled={saving}
+        className="inline-flex items-center justify-center gap-2 rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 disabled:opacity-50"
+      >
+        <Save className="h-4 w-4" />
+        {saving ? "Salvando..." : "Salvar alterações"}
+      </button>
+    </>
+  )}
+</div>
       </div>
     </div>
   );
@@ -511,6 +552,7 @@ function Field({
   placeholder,
   required = false,
   maxLength,
+  disabled = false,
 }: {
   label: string;
   value: string;
@@ -518,6 +560,7 @@ function Field({
   placeholder?: string;
   required?: boolean;
   maxLength?: number;
+  disabled?: boolean;
 }) {
   return (
     <label className="space-y-1.5">
@@ -532,24 +575,26 @@ function Field({
         placeholder={placeholder}
         required={required}
         maxLength={maxLength}
-        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
+        disabled={disabled}
+        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500 disabled:cursor-not-allowed disabled:opacity-60"
       />
     </label>
   );
 }
-
 function SelectField({
   label,
   value,
   onChange,
   options,
   required = false,
+  disabled = false,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
   required?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <label className="space-y-1.5">
@@ -562,7 +607,8 @@ function SelectField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500"
+        disabled={disabled}
+        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-purple-500 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
