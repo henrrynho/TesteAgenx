@@ -446,6 +446,7 @@ setIsEditing(false);
   onChange={(v) => updateField("telefone_fiscal", limitNumbers(v, 11))}
   placeholder="Telefone do responsável fiscal"
   maxLength={11}
+  disabled={!isEditing}
 />
           </div>
         </div>
