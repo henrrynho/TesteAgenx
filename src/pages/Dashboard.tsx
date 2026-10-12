@@ -93,12 +93,21 @@ useEffect(() => {
   ? `${window.location.origin}/agendar/${bookingSlug}`
   : "";
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(bookingUrl);
+  const handleCopyLink = async () => {
+  if (!bookingUrl) {
+    toast.error("Aguarde o carregamento do link de agendamento.");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(bookingUrl);
     setCopied(true);
     toast.success("Link copiado para a área de transferência!");
     setTimeout(() => setCopied(false), 2000);
-  };
+  } catch (error) {
+    toast.error("Não foi possível copiar o link.");
+  }
+};
 
   const { appointments, professionals } = useApp();
 
