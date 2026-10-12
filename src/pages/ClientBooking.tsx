@@ -43,7 +43,7 @@ const timeToMinutes = (time: string) => {
   return hour * 60 + minute;
 };
 export default function ClientBooking() {
-  const { appointments, services, professionals, createMultiServiceAppointment, findOrCreateClient, checkTimeConflict } = useApp();
+ const { appointments, services: contextServices, professionals: contextProfessionals, createMultiServiceAppointment, findOrCreateClient, checkTimeConflict } = useApp();
   const slug = window.location.pathname.split("/").filter(Boolean).pop();
   const { user } = useAuth();
   const navigate = useNavigate();
