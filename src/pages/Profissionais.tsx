@@ -64,7 +64,7 @@ const handleToggleAtivo = async (p: any) => {
           <DialogHeader><DialogTitle>{editId ? "Editar Profissional" : "Novo Profissional"}</DialogTitle></DialogHeader>
           <div className="space-y-4 pt-4">
             <Input placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
-            <Input placeholder="Especialidade" value={especialidade} onChange={(e) => setEspecialidade(e.target.value)} />
+            <Input placeholder="Especialidade ou função" value={especialidade} onChange={(e) => setEspecialidade(e.target.value)} />
             <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-400 text-primary-foreground" onClick={handleSave}>Salvar</Button>
           </div>
         </DialogContent>
