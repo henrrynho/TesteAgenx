@@ -7,6 +7,36 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export function AppLayout() {
+    const [nomeEstabelecimento, setNomeEstabelecimento] = useState("Agenx");
+  const [corPrimaria, setCorPrimaria] = useState("#7C3AED");
+  const [logoUrl, setLogoUrl] = useState("/logo.png");
+
+  useEffect(() => {
+    async function carregarEstabelecimento() {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("estabelecimentos")
+        .select("nome, cor_primaria, logo_url")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Erro ao carregar estabelecimento:", error);
+        return;
+      }
+
+      if (data) {
+        setNomeEstabelecimento(data.nome || "Agenx");
+        setCorPrimaria(data.cor_primaria || "#7C3AED");
+        setLogoUrl(data.logo_url || "/logo.png");
+      }
+    }
+
+    carregarEstabelecimento();
+  }, []);
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
