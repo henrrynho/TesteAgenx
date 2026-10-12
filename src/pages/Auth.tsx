@@ -15,7 +15,7 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [redirectPath, setRedirectPath] = useState<string | null>(null);
+  const [redirectPath, setRedirectPath] = useState<string | null>("/");
 
 useEffect(() => {
   if (!user) {
@@ -40,11 +40,7 @@ useEffect(() => {
       return;
     }
 
-    setRedirectPath(
-      data.nome.trim() === "Meu Negócio"
-        ? "/configuracao-inicial"
-        : "/"
-    );
+    setRedirectPath("/");
   }
 
   verificarEstabelecimento();
