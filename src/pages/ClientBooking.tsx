@@ -52,6 +52,57 @@ const [professionals, setProfessionals] = useState(contextProfessionals);
   const navigate = useNavigate();
   const location = useLocation();
 const showDashboardButton = location.pathname === "/agendar-teste";
+  useEffect(() => {
+  if (!location.pathname.startsWith("/agendar/") || !slug) return;
+
+  let cancelled = false;
+
+  const carregarDadosPublicos = async () => {
+    const { data, error } = await supabase.rpc(
+      "get_public_booking_data",
+      { p_slug: slug }
+    );
+
+    if (cancelled) return;
+
+    if (error || !data?.estabelecimento) {
+      console.error("Erro ao carregar agendamento público:", error);
+      toast.error("Não foi possível carregar os dados deste estabelecimento.");
+      return;
+    }
+
+    setServices(
+      (data.servicos ?? []).map((servico: any) => ({
+        id: servico.id,
+        nome: servico.nome,
+        preco: Number(servico.preco),
+        duracao: Number(servico.duracao),
+      }))
+    );
+
+    setProfessionals(
+      (data.profissionais ?? []).map((profissional: any) => ({
+        id: profissional.id,
+        nome: profissional.nome,
+        especialidade: profissional.especialidade ?? "",
+        ativo: true,
+        avatar: profissional.nome
+          .split(" ")
+          .filter(Boolean)
+          .map((parte: string) => parte[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase(),
+      }))
+    );
+  };
+
+  carregarDadosPublicos();
+
+  return () => {
+    cancelled = true;
+  };
+}, [slug, location.pathname]);
   const [step, setStep] = useState(0);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [serviceProfessionals, setServiceProfessionals] = useState<Record<string, string>>({});
