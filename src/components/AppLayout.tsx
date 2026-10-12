@@ -3,6 +3,8 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { BottomNav } from "@/components/BottomNav";
 import { Outlet } from "react-router-dom";
 import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export function AppLayout() {
   return (
