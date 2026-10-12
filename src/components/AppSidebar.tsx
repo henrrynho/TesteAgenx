@@ -48,17 +48,13 @@ export function AppSidebar() {
       
       <SidebarHeader className="p-4 flex justify-center">
         {!collapsed ? (
-          <div className="flex w-full items-center justify-center">
-            <img
-              src="/logo.png"
-              alt="Agenx"
-              className="h-10 w-auto max-w-full object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-              }}
-            />
-            <span className="font-semibold text-sm">Agenx</span>
-          </div>
+         <div className="flex w-full items-center justify-center">
+  <img
+    src="/logo.png"
+    alt="Agenx"
+    className="h-10 w-auto max-w-full object-contain"
+  />
+</div>
         ) : (
           <div className="flex w-full items-center justify-center">
             <span className="font-bold text-lg">A</span>
