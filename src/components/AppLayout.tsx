@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 export function AppLayout() {
     const [nomeEstabelecimento, setNomeEstabelecimento] = useState("Agenx");
   const [corPrimaria, setCorPrimaria] = useState("#7C3AED");
-  const [logoUrl, setLogoUrl] = useState("/logo.png");
+  const [logoUrl, setLogoUrl] = useState("");
 
   useEffect(() => {
     async function carregarEstabelecimento() {
@@ -31,7 +31,7 @@ export function AppLayout() {
       if (data) {
         setNomeEstabelecimento(data.nome || "Agenx");
         setCorPrimaria(data.cor_primaria || "#7C3AED");
-        setLogoUrl(data.logo_url || "/logo.png");
+        setLogoUrl(data.logo_url || "");
       }
     }
 
