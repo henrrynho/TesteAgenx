@@ -63,6 +63,29 @@ const FILTER_LABELS: Record<FilterType, string> = {
 export default function Dashboard() {
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  const { user } = useAuth();
+const [bookingSlug, setBookingSlug] = useState<string | null>(null);
+
+useEffect(() => {
+  if (!user) return;
+
+  const carregarSlug = async () => {
+    const { data, error } = await supabase
+      .from("estabelecimentos")
+      .select("slug")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Erro ao carregar link de agendamento:", error);
+      return;
+    }
+
+    setBookingSlug(data?.slug ?? null);
+  };
+
+  void carregarSlug();
+}, [user]);
   const [filter, setFilter] = useState<FilterType>("hoje");
   const [customStart, setCustomStart] = useState<Date | undefined>();
   const [customEnd, setCustomEnd] = useState<Date | undefined>();
