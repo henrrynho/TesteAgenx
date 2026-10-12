@@ -46,6 +46,8 @@ const timeToMinutes = (time: string) => {
 export default function ClientBooking() {
  const { appointments, services: contextServices, professionals: contextProfessionals, createMultiServiceAppointment, findOrCreateClient, checkTimeConflict } = useApp();
   const slug = window.location.pathname.split("/").filter(Boolean).pop();
+  const [services, setServices] = useState(contextServices);
+const [professionals, setProfessionals] = useState(contextProfessionals);
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
