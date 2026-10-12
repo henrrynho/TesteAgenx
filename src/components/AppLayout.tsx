@@ -9,68 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 export function AppLayout() {
     
 
-  useEffect(() => {
-    async function carregarEstabelecimento() {
-      const { data: { user } } = await supabase.auth.getUser();
 
-      if (!user) return;
-
-      const { data, error } = await supabase
-        .from("estabelecimentos")
-        .select("nome, cor_primaria, logo_url")
-        .eq("user_id", user.id)
-        .maybeSingle();
-
-      if (error) {
-        console.error("Erro ao carregar estabelecimento:", error);
-        return;
-      }
-
-      if (data) {
-        setNomeEstabelecimento(data.nome || "Agenx");
-        setCorPrimaria(data.cor_primaria || "#7C3AED");
-        setLogoUrl(data.logo_url || "");
-      }
-    }
-
-    carregarEstabelecimento();
-  }, []);
-  return (
-    <SidebarProvider>
-      <div
-  className="min-h-screen flex w-full"
-  style={{
-  "--primary": (() => {
-    const hex = corPrimaria.replace("#", "");
-    const r = parseInt(hex.slice(0, 2), 16) / 255;
-    const g = parseInt(hex.slice(2, 4), 16) / 255;
-    const b = parseInt(hex.slice(4, 6), 16) / 255;
-
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    const delta = max - min;
-
-    let h = 0;
-    let s = 0;
-    const l = (max + min) / 2;
-
-    if (delta !== 0) {
-      s = delta / (1 - Math.abs(2 * l - 1));
-
-      if (max === r) {
-        h = 60 * (((g - b) / delta) % 6);
-      } else if (max === g) {
-        h = 60 * ((b - r) / delta + 2);
-      } else {
-        h = 60 * ((r - g) / delta + 4);
-      }
-    }
-
-    if (h < 0) h += 360;
-
-    return `${h} ${s * 100}% ${l * 100}%`;
-  })(),
-} as React.CSSProperties}
 >
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
