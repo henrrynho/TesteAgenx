@@ -89,7 +89,9 @@ useEffect(() => {
   const [filter, setFilter] = useState<FilterType>("hoje");
   const [customStart, setCustomStart] = useState<Date | undefined>();
   const [customEnd, setCustomEnd] = useState<Date | undefined>();
-  const bookingUrl = `${window.location.origin}/agendar`;
+ const bookingUrl = bookingSlug
+  ? `${window.location.origin}/agendar/${bookingSlug}`
+  : "";
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(bookingUrl);
