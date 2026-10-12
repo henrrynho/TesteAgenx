@@ -44,6 +44,7 @@ const timeToMinutes = (time: string) => {
 };
 export default function ClientBooking() {
   const { appointments, services, professionals, createMultiServiceAppointment, findOrCreateClient, checkTimeConflict } = useApp();
+  const slug = new URLSearchParams(window.location.search).get("slug");
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
