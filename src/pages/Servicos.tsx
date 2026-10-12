@@ -48,7 +48,7 @@ export default function Servicos() {
           <DialogHeader><DialogTitle>{editId ? "Editar Serviço" : "Novo Serviço"}</DialogTitle></DialogHeader>
           <div className="space-y-4 pt-4">
             <Input placeholder="Nome do serviço" value={nome} onChange={(e) => setNome(e.target.value)} />
-            <Input placeholder="Preço (R$)" type="number" value={preco} onChange={(e) => setPreco(e.target.value)} />
+            <Input placeholder="Preço do serviço (R$)" type="number" value={preco} onChange={(e) => setPreco(e.target.value)} />
             <Input placeholder="Duração (minutos)" type="number" value={duracao} onChange={(e) => setDuracao(e.target.value)} />
             <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-400 text-primary-foreground" onClick={handleSave}>Salvar</Button>
           </div>
