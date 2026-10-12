@@ -41,7 +41,11 @@ export function AppLayout() {
     <SidebarProvider>
       <div
   className="min-h-screen flex w-full"
-  style={{ "--primary": corPrimaria } as React.CSSProperties}
+  style={{
+  "--primary": corPrimaria.startsWith("#")
+    ? `${parseInt(corPrimaria.slice(1, 3), 16) / 255 * 100}% ${parseInt(corPrimaria.slice(3, 5), 16) / 255 * 100}% ${parseInt(corPrimaria.slice(5, 7), 16) / 255 * 100}%`
+    : corPrimaria,
+} as React.CSSProperties}
 >
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
