@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,8 +15,56 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [redirectPath, setRedirectPath] = useState<string | null>(null);
 
-  if (user) return <Navigate to="/" replace />;
+useEffect(() => {
+  if (!user) {
+    setRedirectPath(null);
+    return;
+  }
+
+  let cancelled = false;
+
+  async function verificarEstabelecimento() {
+    const { data, error } = await supabase
+      .from("estabelecimentos")
+      .select("nome")
+      .eq("user_id", user!.id)
+      .maybeSingle();
+
+    if (cancelled) return;
+
+    if (error || !data) {
+      toast.error("Não foi possível verificar seu estabelecimento.");
+      setRedirectPath("/");
+      return;
+    }
+
+    setRedirectPath(
+      data.nome.trim() === "Meu Negócio"
+        ? "/configuracao-inicial"
+        : "/"
+    );
+  }
+
+  verificarEstabelecimento();
+
+  return () => {
+    cancelled = true;
+  };
+}, [user]);
+
+  if (user && !redirectPath) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      Verificando seu estabelecimento...
+    </div>
+  );
+}
+
+if (user && redirectPath) {
+  return <Navigate to={redirectPath} replace />;
+}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
