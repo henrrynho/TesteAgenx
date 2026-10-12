@@ -42,9 +42,36 @@ export function AppLayout() {
       <div
   className="min-h-screen flex w-full"
   style={{
-  "--primary": corPrimaria.startsWith("#")
-    ? `${parseInt(corPrimaria.slice(1, 3), 16) / 255 * 100}% ${parseInt(corPrimaria.slice(3, 5), 16) / 255 * 100}% ${parseInt(corPrimaria.slice(5, 7), 16) / 255 * 100}%`
-    : corPrimaria,
+  "--primary": (() => {
+    const hex = corPrimaria.replace("#", "");
+    const r = parseInt(hex.slice(0, 2), 16) / 255;
+    const g = parseInt(hex.slice(2, 4), 16) / 255;
+    const b = parseInt(hex.slice(4, 6), 16) / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+
+    let h = 0;
+    let s = 0;
+    const l = (max + min) / 2;
+
+    if (delta !== 0) {
+      s = delta / (1 - Math.abs(2 * l - 1));
+
+      if (max === r) {
+        h = 60 * (((g - b) / delta) % 6);
+      } else if (max === g) {
+        h = 60 * ((b - r) / delta + 2);
+      } else {
+        h = 60 * ((r - g) / delta + 4);
+      }
+    }
+
+    if (h < 0) h += 360;
+
+    return `${h} ${s * 100}% ${l * 100}%`;
+  })(),
 } as React.CSSProperties}
 >
         <AppSidebar />
