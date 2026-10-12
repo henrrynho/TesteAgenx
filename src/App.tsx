@@ -44,6 +44,7 @@ const App = () => (
                 </Route>
               </Route>
               <Route path="/agendar" element={<ClientBooking />} />
+              <Route path="/agendar/:slug" element={<ClientBooking />} />
               <Route path="/agendar-teste" element={<ClientBooking />} />
               <Route path="/agendamento" element={<ClientBooking />} />
               <Route path="*" element={<NotFound />} />
