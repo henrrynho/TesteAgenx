@@ -350,7 +350,6 @@ const handleSaveEdit = async () => {
     <p className="text-sm font-medium">Nenhum agendamento neste dia</p>
   </div>
 )}
-   ```
   {editingAppointment && (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="w-full max-w-md rounded-2xl border border-border bg-background shadow-2xl">
@@ -419,7 +418,6 @@ const handleSaveEdit = async () => {
       </div>
     </div>
   )}
-```
 
     </div>
   );
