@@ -41,23 +41,30 @@ const [isSavingEdit, setIsSavingEdit] = useState(false);
   setIsEditModalOpen(true);
 };
 
-const saveEditedAppointment = async () => {
+const handleSaveEdit = async () => {
   if (!editingAppointment || !editDate || !editTime) return;
 
   setIsSavingEdit(true);
 
-  const ids = editingAppointment.appointmentIds || [editingAppointment.id];
+  try {
+    const ids = editingAppointment.appointmentIds || [
+      editingAppointment.id,
+    ];
 
-  for (const appointmentId of ids) {
-    await updateAppointment(appointmentId, {
-      data: editDate,
-      horario: editTime,
-    });
+    for (const appointmentId of ids) {
+      await updateAppointment(appointmentId, {
+        data: editDate,
+        horario: editTime,
+      });
+    }
+
+    setIsEditModalOpen(false);
+    setEditingAppointment(null);
+  } catch (error) {
+    console.error("Erro ao editar agendamento:", error);
+  } finally {
+    setIsSavingEdit(false);
   }
-
-  setIsEditModalOpen(false);
-  setEditingAppointment(null);
-  setIsSavingEdit(false);
 };
 
   const dayAppointments = appointments.filter((a) => a.data === dateStr && a.status !== "cancelado");
