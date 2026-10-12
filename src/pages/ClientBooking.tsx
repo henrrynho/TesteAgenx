@@ -9,6 +9,7 @@ import { Check, Scissors, ArrowRight, ArrowLeft, CalendarDays, Clock, LayoutDash
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { useApp, addMinutesToTime } from "@/contexts/AppContext";
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Calendar } from "@/components/ui/calendar";
 import {
