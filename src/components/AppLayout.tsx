@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export function AppLayout() {
-    const [nomeEstabelecimento, setNomeEstabelecimento] = useState("Agenx");
-  const [corPrimaria, setCorPrimaria] = useState("#7C3AED");
-  const [logoUrl, setLogoUrl] = useState("");
+    
 
   useEffect(() => {
     async function carregarEstabelecimento() {
