@@ -401,39 +401,68 @@ return;
 }
     setSubmitting(true);
     try {
-      const client = await findOrCreateClient(nome, telefone, email);
-      const serviceItems = selectedServiceObjects.map((service) => {
-  const professionalId = serviceProfessionals[service.id];
-  const professional = professionals.find((p) => p.id === professionalId);
+      
+      if (location.pathname.startsWith("/agendar/")) {
+        const { data, error } = await supabase.rpc(
+          "criar_agendamento_publico",
+          {
+            p_slug: slug,
+            p_nome: nome.trim(),
+            p_telefone: telefone,
+            p_email: email,
+            p_data: dateStr,
+            p_horario: selectedTime,
+            p_itens: selectedServiceObjects.map((service) => ({
+              servicoId: service.id,
+              profissionalId: serviceProfessionals[service.id],
+            })),
+            p_documento: desejaNotaFiscal ? clienteDocumento : "",
+            p_deseja_nota_fiscal: desejaNotaFiscal,
+          }
+        );
 
-  return {
-    serviceId: service.id,
-    serviceName: service.nome,
-    professionalId,
-    professionalName: professional?.nome || "",
-    duracao: service.duracao,
-    preco: service.preco,
-  };
-});
+        if (error) throw error;
+        if (!data?.sucesso) {
+          throw new Error("Não foi possível confirmar o agendamento.");
+        }
+      } else {
+        const client = await findOrCreateClient(nome, telefone, email);
 
-for (const item of serviceItems) {
-  await createMultiServiceAppointment({
-    clienteId: client.id,
-    clienteNome: client.nome,
-    clienteDocumento: desejaNotaFiscal ? clienteDocumento : "",
-clienteEmail: email || "",
-desejaNotaFiscal,
-    profissionalId: item.professionalId,
-    profissionalNome: item.professionalName,
-    servicoIds: [item.serviceId],
-    servicoNomes: [item.serviceName],
-    data: dateStr,
-    horario: selectedTime,
-    totalDuracao: item.duracao,
-    totalPreco: item.preco,
-    status: "pendente",
-  });
-}
+        const serviceItems = selectedServiceObjects.map((service) => {
+          const professionalId = serviceProfessionals[service.id];
+          const professional = professionals.find(
+            (p) => p.id === professionalId
+          );
+
+          return {
+            serviceId: service.id,
+            serviceName: service.nome,
+            professionalId,
+            professionalName: professional?.nome || "",
+            duracao: service.duracao,
+            preco: service.preco,
+          };
+        });
+
+        for (const item of serviceItems) {
+          await createMultiServiceAppointment({
+            clienteId: client.id,
+            clienteNome: client.nome,
+            clienteDocumento: desejaNotaFiscal ? clienteDocumento : "",
+            clienteEmail: email || "",
+            desejaNotaFiscal,
+            profissionalId: item.professionalId,
+            profissionalNome: item.professionalName,
+            servicoIds: [item.serviceId],
+            servicoNomes: [item.serviceName],
+            data: dateStr,
+            horario: selectedTime,
+            totalDuracao: item.duracao,
+            totalPreco: item.preco,
+            status: "pendente",
+          });
+        }
+      }
       setConfirmed(true);
       toast.success("Agendamento confirmado com sucesso!");
     } catch (e: any) {
