@@ -286,10 +286,10 @@ for (const item of serviceItems) {
 const handleEmitirNfse = async (agendamento: any) => {
   try {
     const servicoDescricao =
-      agendamento.servicoNome ||
-      agendamento.servico_nome ||
-      agendamento.servico ||
-      "Serviço de beleza";
+  agendamento.servicoNome ||
+  agendamento.servico_nome ||
+  agendamento.servico ||
+  "Serviço prestado";
 
     const valor =
       Number(agendamento.preco) ||
