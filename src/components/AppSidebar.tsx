@@ -45,15 +45,24 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
+      
       <SidebarHeader className="p-4 flex justify-center">
         {!collapsed ? (
           <div className="flex w-full items-center justify-center">
-  <img src="/logo.png" className="h-10 w-auto mx-auto" />
-</div>
+            <img
+              src="/logo.png"
+              alt="Agenx"
+              className="h-10 w-auto max-w-full object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+            <span className="font-semibold text-sm">Agenx</span>
+          </div>
         ) : (
           <div className="flex w-full items-center justify-center">
- <img src="/logo.png" className="h-5 w-auto mx-auto" />
-</div>
+            <span className="font-bold text-lg">A</span>
+          </div>
         )}
       </SidebarHeader>
 
