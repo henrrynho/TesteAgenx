@@ -193,7 +193,13 @@ counts[nomeServico] = (counts[nomeServico] || 0) + 1;
           </div>
           <div className="flex items-center gap-2">
             <div className="text-xs text-muted-foreground bg-muted/50 px-3 py-2 rounded-lg truncate max-w-[240px]">{bookingUrl}</div>
-            <Button size="sm" variant="outline" onClick={handleCopyLink} className="shrink-0">
+            <Button
+  size="sm"
+  variant="outline"
+  onClick={handleCopyLink}
+  disabled={!bookingUrl}
+  className="shrink-0"
+>
               {copied ? <Check className="h-4 w-4 mr-1" /> : <Copy className="h-4 w-4 mr-1" />}
               {copied ? "Copiado!" : "Copiar Link"}
             </Button>
