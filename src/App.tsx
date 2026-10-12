@@ -17,6 +17,7 @@ import Auth from "@/pages/Auth";
 import NotFound from "@/pages/NotFound";
 import NotasFiscais from "@/pages/NotasFiscais";
 import ConfiguracoesFiscais from "@/pages/ConfiguracoesFiscais";
+import ConfiguracaoInicial from "@/pages/ConfiguracaoInicial";
 import ResetPassword from "@/pages/ResetPassword";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,14 @@ const App = () => (
             <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route
+  path="/configuracao-inicial"
+  element={
+    <ProtectedRoute>
+      <ConfiguracaoInicial />
+    </ProtectedRoute>
+  }
+/>
               <Route element={<ProtectedRoute />}>
                 <Route element={<AppLayout />}>
                   <Route path="/" element={<Dashboard />} />
