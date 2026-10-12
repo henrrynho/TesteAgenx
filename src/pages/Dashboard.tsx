@@ -189,7 +189,7 @@ counts[nomeServico] = (counts[nomeServico] || 0) + 1;
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-display font-semibold">Dashboard</h1>
-            <p className="text-muted-foreground text-sm mt-1">Visão geral do seu salão</p>
+            <p className="text-muted-foreground text-sm mt-1">Visão geral do seu negócio</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="text-xs text-muted-foreground bg-muted/50 px-3 py-2 rounded-lg truncate max-w-[240px]">{bookingUrl}</div>
