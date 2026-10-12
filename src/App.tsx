@@ -17,7 +17,6 @@ import Auth from "@/pages/Auth";
 import NotFound from "@/pages/NotFound";
 import NotasFiscais from "@/pages/NotasFiscais";
 import ConfiguracoesFiscais from "@/pages/ConfiguracoesFiscais";
-import ConfiguracaoInicial from "@/pages/ConfiguracaoInicial";
 import ResetPassword from "@/pages/ResetPassword";
 
 const queryClient = new QueryClient();
