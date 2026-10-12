@@ -20,9 +20,11 @@ export function AppLayout() {
               </span>
             </SidebarTrigger>
 
-            <span className="absolute left-1/2 -translate-x-1/2 font-semibold">
-              Agenx
-            </span>
+            <img
+  src="/logo.png"
+  alt="Agenx"
+  className="absolute left-1/2 -translate-x-1/2 h-10 max-w-[180px] object-contain"
+/>
           </header>
 
           <main className="flex-1 overflow-auto p-4 md:p-6 pb-20 md:pb-6">
