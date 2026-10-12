@@ -47,7 +47,18 @@ export function AppLayout() {
               <Menu className="h-5 w-5" />
               <span className="ml-1 text-sm font-medium md:hidden">Menu</span>
             </SidebarTrigger>
-            <img src="/logo.png" className="absolute left-1/2 -translate-x-1/2 h-10 w-auto" />
+           {logoUrl ? (
+  <img
+    src={logoUrl}
+    alt={nomeEstabelecimento}
+    title={nomeEstabelecimento}
+    className="absolute left-1/2 -translate-x-1/2 h-10 max-w-[180px] object-contain"
+  />
+) : (
+  <span className="absolute left-1/2 -translate-x-1/2 font-semibold">
+    {nomeEstabelecimento}
+  </span>
+)}
           </header>
           <main className="flex-1 overflow-auto p-4 md:p-6 pb-20 md:pb-6">
             <Outlet />
