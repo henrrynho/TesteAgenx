@@ -129,90 +129,7 @@ const handleSaveEdit = async () => {
       return acc;
     }, {})
   );
- {editingAppointment && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-    <div className="w-full max-w-md rounded-2xl border border-border bg-background shadow-2xl">
-
-      <div className="flex items-center justify-between border-b border-border px-6 py-5">
-        <div>
-          <h2 className="text-lg font-semibold">
-            Editar agendamento
-          </h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Altere a data e o horário do atendimento.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setEditingAppointment(null)}
-          className="text-muted-foreground hover:text-foreground text-xl"
-        >
-          ×
-        </button>
-      </div>
-
-      <div className="space-y-5 p-6">
-
-        <div>
-          <label className="text-sm font-medium">
-            Cliente
-          </label>
-
-          <div className="mt-2 rounded-lg border border-border bg-muted/30 px-3 py-2.5 text-sm">
-            {editingAppointment.clienteNome}
-          </div>
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">
-            Nova data
-          </label>
-
-          <input
-            type="date"
-            value={editDate}
-            onChange={(e) => setEditDate(e.target.value)}
-            className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-purple-500"
-          />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">
-            Novo horário
-          </label>
-
-          <input
-            type="time"
-            value={editTime}
-            onChange={(e) => setEditTime(e.target.value)}
-            className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-purple-500"
-          />
-        </div>
-
-      </div>
-
-      <div className="flex justify-end gap-3 border-t border-border px-6 py-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => setEditingAppointment(null)}
-        >
-          Cancelar
-        </Button>
-
-        <Button
-          type="button"
-          onClick={handleSaveEdit}
-          className="bg-purple-600 hover:bg-purple-700"
-        >
-          Salvar alterações
-        </Button>
-      </div>
-
-    </div>
-  </div>
-)}
+ 
   return (
     <div className="space-y-6 max-w-7xl pb-24">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -433,6 +350,77 @@ const handleSaveEdit = async () => {
     <p className="text-sm font-medium">Nenhum agendamento neste dia</p>
   </div>
 )}
+   ```
+  {editingAppointment && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-background shadow-2xl">
+        <div className="flex items-center justify-between border-b border-border px-6 py-5">
+          <div>
+            <h2 className="text-lg font-semibold">Editar agendamento</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Altere a data e o horário do atendimento.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setEditingAppointment(null)}
+            className="text-muted-foreground hover:text-foreground text-xl"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="space-y-5 p-6">
+          <div>
+            <label className="text-sm font-medium">Cliente</label>
+            <div className="mt-2 rounded-lg border border-border bg-muted/30 px-3 py-2.5 text-sm">
+              {editingAppointment.clienteNome}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Nova data</label>
+            <input
+              type="date"
+              value={editDate}
+              onChange={(e) => setEditDate(e.target.value)}
+              className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-purple-500"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Novo horário</label>
+            <input
+              type="time"
+              value={editTime}
+              onChange={(e) => setEditTime(e.target.value)}
+              className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-purple-500"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3 border-t border-border px-6 py-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setEditingAppointment(null)}
+          >
+            Cancelar
+          </Button>
+          <Button
+            type="button"
+            onClick={handleSaveEdit}
+            disabled={isSavingEdit}
+            className="bg-purple-600 hover:bg-purple-700"
+          >
+            {isSavingEdit ? "Salvando..." : "Salvar alterações"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  )}
+```
+
     </div>
   );
 }
