@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   CalendarDays,
@@ -7,6 +8,7 @@ import {
   UserCog,
   ExternalLink,
   LogOut,
+  Building2,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -35,6 +37,7 @@ const menuItems = [
   { title: "Profissionais", url: "/profissionais", icon: UserCog },
   { title: "Notas Fiscais", url: "/notas-fiscais", icon: FileText },
   { title: "Config. Fiscais", url: "/configuracoes-fiscais", icon: Settings },
+  { title: "Config. do negócio", url: "/configuracoes-negocio", icon: Building2 },
 ];
 
 export function AppSidebar() {
