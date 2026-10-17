@@ -4,7 +4,7 @@ import {
   CalendarDays,
   CalendarRange,
   Users,
-  ClipboardList
+  ClipboardList,
   UserCog,
   ExternalLink,
   LogOut,
