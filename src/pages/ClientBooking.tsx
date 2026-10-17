@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formatCurrency } from "@/data/mock";
-import { Check, Scissors, ArrowRight, ArrowLeft, CalendarDays, Clock, LayoutDashboard } from "lucide-react";
+import { Check, ArrowRight, ArrowLeft, CalendarDays, Clock, LayoutDashboard } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { useApp, addMinutesToTime } from "@/contexts/AppContext";
