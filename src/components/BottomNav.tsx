@@ -1,4 +1,4 @@
-import { LayoutDashboard, CalendarDays, CalendarRange, Users, Scissors, UserCog } from "lucide-react";
+import { LayoutDashboard, CalendarDays, CalendarRange, Users, ClipboardList, UserCog } from "lucide-react";
 import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -7,7 +7,7 @@ const items = [
   { title: "Agendamentos", url: "/agendamentos", icon: CalendarDays },
   { title: "Agenda", url: "/agenda", icon: CalendarRange },
   { title: "Clientes", url: "/clientes", icon: Users },
-  { title: "Serviços", url: "/servicos", icon: Scissors },
+ { title: "Serviços", url: "/servicos", icon: ClipboardList },
   { title: "Equipe", url: "/profissionais", icon: UserCog },
 ];
 
