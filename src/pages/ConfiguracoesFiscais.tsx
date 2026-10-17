@@ -170,7 +170,7 @@ if (campoVazio) {
 
 if (!form.dados_confirmados) {
   toast.error(
-  "Você precisa confirmar que os dados fiscais foram revisados pelo responsável ou contador do salão."
+  "Você precisa confirmar que os dados fiscais foram revisados pelo responsável ou contador do estabelecimento."
 );
   return;
 }
@@ -252,7 +252,7 @@ setIsEditing(false);
           Configurações Fiscais
         </h1>
         <p className="text-muted-foreground text-sm mt-1">
-          Configure os dados fiscais do salão para emissão de NFS-e.
+          Configure os dados fiscais do estabelecimento para emissão de NFS-e.
         </p>
       </div>
 
@@ -265,7 +265,7 @@ setIsEditing(false);
             </p>
             <p className="text-sm text-yellow-100/80">
               Código de serviço, alíquota de ISS, regime tributário e inscrição
-              municipal devem ser informados corretamente pelo salão ou contador.
+              municipal devem ser informados corretamente pelo estabelecimento ou contador.
             </p>
           </div>
         </div>
@@ -273,7 +273,7 @@ setIsEditing(false);
 
       <div className="rounded-lg border border-border bg-card/60 p-5 space-y-6">
         <div>
-          <h2 className="font-semibold mb-4">Dados do salão</h2>
+          <h2 className="font-semibold mb-4">Dados do estabelecimento</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
            <Field
@@ -309,7 +309,7 @@ setIsEditing(false);
               label="Nome Fantasia"
               value={form.nome_fantasia}
               onChange={(v) => updateField("nome_fantasia", v)}
-              placeholder="Nome do salão"
+              placeholder="Nome do estabelecimento"
               required
               disabled={!isEditing}
             />
@@ -501,7 +501,7 @@ setIsEditing(false);
                 }
               />
               Confirmo que os dados fiscais foram revisados pelo responsável ou
-              contador do salão.
+              contador do estabelecimento.
             </label>
           </div>
         </div>
