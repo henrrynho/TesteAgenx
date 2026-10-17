@@ -4,7 +4,7 @@ import {
   CalendarDays,
   CalendarRange,
   Users,
-  Scissors,
+  ClipboardList
   UserCog,
   ExternalLink,
   LogOut,
@@ -32,7 +32,7 @@ const menuItems = [
   { title: "Agendamentos", url: "/agendamentos", icon: CalendarDays },
   { title: "Agenda", url: "/agenda", icon: CalendarRange },
   { title: "Clientes", url: "/clientes", icon: Users },
-  { title: "Serviços", url: "/servicos", icon: Scissors },
+  { title: "Serviços", url: "/servicos", icon: ClipboardList },
   { title: "Profissionais", url: "/profissionais", icon: UserCog },
   { title: "Notas Fiscais", url: "/notas-fiscais", icon: FileText },
   { title: "Config. Fiscais", url: "/configuracoes-fiscais", icon: Settings },
