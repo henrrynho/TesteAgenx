@@ -7,12 +7,14 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Auth() {
   const { user, signIn, signUp } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [redirectPath, setRedirectPath] = useState<string | null>("/");
 
@@ -105,7 +107,34 @@ if (user && redirectPath) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
+              
+<div className="space-y-2">
+  <Label htmlFor="password">Senha</Label>
+  <div className="relative">
+    <Input
+      id="password"
+      type={showPassword ? "text" : "password"}
+      placeholder="••••••"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className="pr-10"
+    />
+    <button
+      type="button"
+      onClick={() => setShowPassword((prev) => !prev)}
+      className="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-muted-foreground hover:text-foreground"
+      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+      aria-pressed={showPassword}
+    >
+      {showPassword ? (
+        <EyeOff className="h-4 w-4" />
+      ) : (
+        <Eye className="h-4 w-4" />
+      )}
+    </button>
+  </div>
+</div>
+
               <Input
                 id="password"
                 type="password"
