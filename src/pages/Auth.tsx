@@ -134,15 +134,6 @@ if (user && redirectPath) {
     </button>
   </div>
 </div>
-
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Aguarde..." : isLogin ? "Entrar" : "Criar Conta"}
             </Button>
