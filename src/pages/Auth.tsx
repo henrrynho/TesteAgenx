@@ -106,34 +106,32 @@ if (user && redirectPath) {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="space-y-2">
-              
-<div className="space-y-2">
-  <Label htmlFor="password">Senha</Label>
-  <div className="relative">
-    <Input
-      id="password"
-      type={showPassword ? "text" : "password"}
-      placeholder="••••••"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      className="pr-10"
-    />
-    <button
-      type="button"
-      onClick={() => setShowPassword((prev) => !prev)}
-      className="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-muted-foreground hover:text-foreground"
-      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-      aria-pressed={showPassword}
-    >
-      {showPassword ? (
-        <EyeOff className="h-4 w-4" />
-      ) : (
-        <Eye className="h-4 w-4" />
-      )}
-    </button>
-  </div>
-</div>
+                        <div className="space-y-2">
+              <Label htmlFor="password">Senha</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-0 flex items-center justify-center px-3 text-muted-foreground hover:text-foreground"
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+            </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Aguarde..." : isLogin ? "Entrar" : "Criar Conta"}
             </Button>
